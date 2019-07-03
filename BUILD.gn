@@ -1,0 +1,9 @@
+static_library("gmap") {
+    sources=[
+        "//include/map.h",
+        "//src/map.cpp",
+    ]
+    include_dirs=[
+        "//include/"
+    ]
+}
