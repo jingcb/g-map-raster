@@ -1,4 +1,9 @@
-static_library("gmap") {
+group("g-map") {
+    deps=[
+        ":rastermap"
+    ]
+}
+static_library("rastermap") {
     sources=[
         "//include/map.h",
         "//src/map.cpp",
