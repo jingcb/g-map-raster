@@ -7,10 +7,14 @@ namespace gmap {
     public:
         Map();
         //初始化地图
-        Map(int width, int hight);
+        Map(int width, int height);
+        ~Map();
         void SetBounds(double xmin, double ymin, double xmax, double ymax);
         void SetRes(double res);
         bool Render();
+    protected:
+        int width_; //需要渲染的图片的宽（像素）
+        int height_; //需要渲染的图片的高（像素）
     };
 }
 #endif
