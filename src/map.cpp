@@ -1,5 +1,5 @@
 #include "map.h"
-
+#include "map_style.h"
 namespace gmap {
     Map::Map():
     width_(256),
@@ -10,4 +10,9 @@ namespace gmap {
     width_(width),
     height_(height) {
     }
+    bool Map::Init(const std::string &def) {
+        
+        return true;
+    }
+    
 }

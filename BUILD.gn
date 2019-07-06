@@ -5,10 +5,19 @@ group("g-map") {
 }
 static_library("rastermap") {
     sources=[
+        "//include/layer.h",
+        "//include/rule.h",
+        "//include/map_style.h",
         "//include/map.h",
+
+        "//src/layer.cpp",
+        "//src/rule.cpp",
+        "//src/map_style.cpp",
         "//src/map.cpp",
     ]
     include_dirs=[
-        "//include/"
+        "//include/",
+        "//3rd/skia",
+        "/usr/local/include"
     ]
 }
