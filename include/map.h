@@ -24,7 +24,7 @@ namespace gmap {
         double xmax_;
         double ymax_;
         double res_;
-        mapstyle_ptr style_;
+        mapstyle_ptr mapStyle_;
         
     };
 }

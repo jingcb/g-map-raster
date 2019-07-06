@@ -1,7 +1,16 @@
 group("g-map") {
     deps=[
-        ":rastermap"
+        ":test"
     ]
+    
+}
+executable("test") {
+  sources = [
+    "//test/test.cpp",
+  ]
+  deps=[
+      ":rastermap"
+  ]
 }
 static_library("rastermap") {
     sources=[
@@ -16,8 +25,9 @@ static_library("rastermap") {
         "//src/map.cpp",
     ]
     include_dirs=[
+        "/usr/local/include",
         "//include/",
-        "//3rd/skia",
-        "/usr/local/include"
+        "//3rd/skia"
+        
     ]
 }

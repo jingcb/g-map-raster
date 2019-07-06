@@ -10,9 +10,10 @@ namespace gmap {
     width_(width),
     height_(height) {
     }
+    
     bool Map::Init(const std::string &def) {
-        
-        return true;
+        //初始化配置文件
+        return mapStyle_->Load(def);
     }
     
 }
