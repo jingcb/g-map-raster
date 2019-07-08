@@ -18,6 +18,7 @@ static_library("rastermap") {
         "//include/rule.h",
         "//include/map_style.h",
         "//include/map.h",
+        "//include/utils/debug_utility.h",
 
         "//src/layer.cpp",
         "//src/rule.cpp",
@@ -30,4 +31,15 @@ static_library("rastermap") {
         "//3rd/skia"
         
     ]
+    libs=[
+        "boost_system-mt",
+        "boost_thread-mt",
+        "boost_filesystem-mt",
+        "boost_date_time-mt",
+        "boost_timer-mt",
+        "boost_chrono-mt",
+        "boost_log-mt",
+        "boost_log_setup-mt",
+        "boost_regex-mt",]
+    lib_dirs=["/usr/local/lib"]
 }

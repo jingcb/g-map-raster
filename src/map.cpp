@@ -1,5 +1,7 @@
 #include "map.h"
 #include "map_style.h"
+#include <boost/make_shared.hpp>
+#include "utils/debug_utility.h"
 namespace gmap {
     Map::Map():
     width_(256),
@@ -11,9 +13,17 @@ namespace gmap {
     height_(height) {
     }
     
-    bool Map::Init(const std::string &def) {
+    void Map::SetBounds(const double &xmin, const double &ymin, const double &xmax, const double &ymax) {
+        xmin_ = xmin;
+        ymin_ = ymin;
+        xmax_ = xmax;
+        ymax_ = ymax;
+    }
+    
+    bool Map::Init(const std::string &def, bool fromFile) {
         //初始化配置文件
-        return mapStyle_->Load(def);
+        mapStyle_ = boost::make_shared<MapStyle>();
+        return mapStyle_->Load(def, fromFile);
     }
     
 }
