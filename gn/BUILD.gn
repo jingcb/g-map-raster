@@ -7,7 +7,7 @@ declare_args() {
   extra_asmflags = []
   extra_cflags = []
   extra_cflags_c = []
-  extra_cflags_cc = []
+  extra_cflags_cc = ["-frtti", "-fexceptions"]
   extra_ldflags = []
 
   malloc = ""
