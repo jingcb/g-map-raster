@@ -26,4 +26,11 @@ namespace gmap {
         return mapStyle_->Load(def, fromFile);
     }
     
+    bool Map::Render() {
+        int nlayers = mapStyle_->GetLayerCount();
+        for(int i = 0; i < nlayers; i++) {
+            layer_ptr layer = mapStyle_->GetLayer(i);
+            
+        }
+    }
 }
