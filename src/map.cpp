@@ -1,18 +1,20 @@
 #include "map.h"
+#include "layer.h"
 #include "map_style.h"
-#include <boost/make_shared.hpp>
+#include "COGDataSource.cpp"
 #include "utils/debug_utility.h"
 namespace gmap {
-    Map::Map():
-    width_(256),
-    height_(256) {
-    }
-    
     Map::Map(int width, int height):
     width_(width),
-    height_(height) {
+    height_(height),
+    xmin_(0),
+    ymin_(0),
+    xmax_(0),
+    ymax_(0) {
+        surface_ = SkSurface::MakeRasterN32Premul(width_, height_);
     }
     
+    Map::~Map(){}
     void Map::SetBounds(const double &xmin, const double &ymin, const double &xmax, const double &ymax) {
         xmin_ = xmin;
         ymin_ = ymin;
@@ -28,9 +30,14 @@ namespace gmap {
     
     bool Map::Render() {
         int nlayers = mapStyle_->GetLayerCount();
+        cogDataSource = boost::make_shared<COGDataSource>();
         for(int i = 0; i < nlayers; i++) {
             layer_ptr layer = mapStyle_->GetLayer(i);
-            
+            if (layer == nullptr) {
+                return false;
+            }
+            cogDataSource->SetDataPath(layer->GetDataPath());
         }
+        return true;
     }
 }

@@ -1,0 +1,16 @@
+{
+    "datasetDir": "...",
+    "layers": {
+        "layer1": {
+            "data": "...",
+            "rule": {
+                "renderType": "...",
+                "renderbands": [],
+                "colorMap": [{
+                    "value": 20,
+                    "color": [0, 255, 255]
+                }]
+            }
+        }
+    }
+}

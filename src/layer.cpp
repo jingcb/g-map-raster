@@ -8,5 +8,4 @@ namespace gmap {
     Layer::Layer(std::string layerName, std::string dataPath):
     layerName_(layerName),
     dataPath_(dataPath) {};
-    
 }

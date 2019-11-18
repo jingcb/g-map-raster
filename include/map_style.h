@@ -18,7 +18,7 @@ namespace gmap {
         bool LoadFromFile(const std::string &file);
         bool LoadFromStream(const char* jsonString);
         
-        inline layer_ptr GetLayer(int index) {return layers_[index];};
+        layer_ptr GetLayer(int index);
         inline int GetLayerCount() {return  layers_.size();};
         
     private:

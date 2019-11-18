@@ -6,6 +6,12 @@
 #include "utils/debug_utility.h"
 
 namespace gmap {
+    MapStyle::MapStyle() {
+        
+    }
+    MapStyle::~MapStyle() {
+        
+    }
     bool MapStyle::Load(const std::string &def, bool fromFile) {
         if (fromFile) {
             return this->LoadFromFile(def);
@@ -13,13 +19,13 @@ namespace gmap {
             return this->LoadFromStream(def.c_str());
         }
     }
-    
+    // 测试
     // 从json文件中解析风格配置
     bool MapStyle::LoadFromFile(const std::string &file) {
         std::ifstream input;
         input.open(file);
         if (!input.is_open()) {
-            return false;
+            BOOST_LOG_TRIVIAL(error) << "can't open config file: " << file; 
         }
         
         rapidjson::IStreamWrapper isw(input);
@@ -70,6 +76,9 @@ namespace gmap {
             }
         }
         
+        if (!ParseLayers(document)) {
+            return false;
+        }
         
         return true;
     }
@@ -78,6 +87,13 @@ namespace gmap {
         
         
         return true;
+    }
+
+    layer_ptr MapStyle::GetLayer(int index) {
+        if (index >= this->GetLayerCount()) {
+            return nullptr;
+        }
+        return layers_[index];
     }
     
     bool MapStyle::ParseLayers(rapidjson::Document& document) {
@@ -90,16 +106,25 @@ namespace gmap {
             BOOST_LOG_TRIVIAL(error) << "Layers is not a Object";
             return false;
         }
+        
+        //解析每一个图层设置
         for (rapidjson::Value::ConstMemberIterator itr = layers.MemberBegin(); itr != layers.MemberEnd(); ++itr) {
             std::string layerName = itr->name.GetString();
             if (!itr->value.IsObject()) {
                 BOOST_LOG_TRIVIAL(error) << "Layer: "<<layerName<<"is not a Object";
             }
             
+            //获得数据
             rapidjson::Value::ConstMemberIterator  data_itr = itr->value.FindMember("data");
             std::string dataName = data_itr->value.GetString();
-            
             layer_ptr layer = boost::make_shared<Layer>(layerName,  datasetDir_ + "/" +dataName);
+            
+            //获取配置
+            data_itr = itr->value.FindMember("rule");
+            //rapidjson::Value rule = itr->value[";
+            //layer->SetRule(rule);
+            
+            layers_.push_back(layer);
             
         }
         return true;
