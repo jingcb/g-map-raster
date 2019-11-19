@@ -7,10 +7,10 @@ namespace gmap {
     public:
         COGDataSource();
         ~COGDataSource();
-        void SetSpatialFilter(double xmin, double ymin, double xmax, double ymax);
+        void SetSpitialFilter(double xmin, double ymin, double xmax, double ymax);
         void SetDataPath(const std::string& filepath) { filepath_ = filepath;}
         bool RasterIO(const int& width, const int& height);
-        bool ReadRaster(const int& width, const int& height);
+        bool ReadRaster(const int& width, const int& height, void* imageData);
     private:
         std::string filepath_;
         double xmin_;

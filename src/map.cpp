@@ -37,6 +37,9 @@ namespace gmap {
                 return false;
             }
             cogDataSource->SetDataPath(layer->GetDataPath());
+            cogDataSource->SetSpitialFilter(xmin(), ymin(), xmax(), ymax());
+            float* imageData = new float[width_ * height_];
+            cogDataSource->ReadRaster(width_, height_, imageData);
         }
         return true;
     }

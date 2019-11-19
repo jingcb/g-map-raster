@@ -13,7 +13,7 @@ namespace gmap {
     COGDataSource::~COGDataSource() {
         
     }
-    void COGDataSource::SetSpatialFilter(double xmin, double ymin, double xmax, double ymax) {
+    void COGDataSource::SetSpitialFilter(double xmin, double ymin, double xmax, double ymax) {
         xmin_ = xmin;
         ymin_ = ymin;
         xmax_ = xmax;
@@ -22,7 +22,7 @@ namespace gmap {
     bool COGDataSource::RasterIO(const int& width, const int& height) {
         return false;
     }
-    bool COGDataSource::ReadRaster(const int& width, const int& height) {
+    bool COGDataSource::ReadRaster(const int& width, const int& height, void* imageData) {
         return false;
     }
     
