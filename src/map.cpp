@@ -36,10 +36,17 @@ namespace gmap {
             if (layer == nullptr) {
                 return false;
             }
+            
             cogDataSource->SetDataPath(layer->GetDataPath());
             cogDataSource->SetSpitialFilter(xmin(), ymin(), xmax(), ymax());
             float* imageData = new float[width_ * height_];
-            cogDataSource->ReadRaster(width_, height_, imageData);
+            if(!cogDataSource->ReadRaster(width_, height_, imageData)) {
+                delete []imageData;
+                return false;
+            }
+            
+            
+            delete []imageData;
         }
         return true;
     }

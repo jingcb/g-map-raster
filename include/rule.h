@@ -7,8 +7,8 @@ namespace gmap {
         Rule();
         ~Rule();
         
-        bool HasMember(std::string)
+        bool HasMember(std::string);
         
-    }
+    };
 }
 #endif

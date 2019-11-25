@@ -8,6 +8,7 @@
 #include "COGDataSource.h"
 
 #include "gdal.h"
+#include "cpl_conv.h"
 #include "gdal_utils.h"
 
 #include "utils/debug_utility.h"
@@ -71,6 +72,17 @@ namespace gmap {
         if(GDALRasterIO(pRasterband, GF_Read, 0, 0, width, height, imageData, width, height, GDT_Float32, 0, 0) == CPLErr::CE_Failure) {
             return false;
         }
+        
+        GDALClose( hOutDS ? hOutDS : hDstDS );
+        GDALWarpAppOptionsFree(psOptions);
+        GDALClose(pahSrcDS[0]);
+        CPLFree(pahSrcDS);
+        
+        GDALDumpOpenDatasets( stderr );
+        
+        GDALDestroyDriverManager();
+        
+        OGRCleanupAll();
         
         return true;
     }

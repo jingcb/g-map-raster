@@ -33,12 +33,14 @@ executable("test") {
 static_library("rastermap") {
   sources = [
     "//include/COGDataSource.h",
+    "//include/RenderBase.h",
     "//include/layer.h",
     "//include/map.h",
     "//include/map_style.h",
     "//include/rule.h",
     "//include/utils/debug_utility.h",
     "//src/COGDataSource.cpp",
+    "//src/RenderBase.cpp",
     "//src/layer.cpp",
     "//src/map.cpp",
     "//src/map_style.cpp",

@@ -1,5 +1,6 @@
 #include "map_style.h"
 #include "layer.h"
+#include "rule.h"
 #include <fstream>
 #include <rapidjson/document.h>
 #include <rapidjson/istreamwrapper.h>
@@ -82,12 +83,6 @@ namespace gmap {
         
         return true;
     }
-    
-    bool MapStyle::ParseLayer(const rapidjson::Value &layer) {
-        
-        
-        return true;
-    }
 
     layer_ptr MapStyle::GetLayer(int index) {
         if (index >= this->GetLayerCount()) {
@@ -120,14 +115,22 @@ namespace gmap {
             layer_ptr layer = boost::make_shared<Layer>(layerName,  datasetDir_ + "/" +dataName);
             
             //获取配置
-            data_itr = itr->value.FindMember("rule");
-            //rapidjson::Value rule = itr->value[";
-            //layer->SetRule(rule);
+            rapidjson::Value::ConstMemberIterator rule_itr = itr->value.FindMember("rules");
+            bool has_rules = (rule_itr != itr->value.MemberEnd() && rule_itr->value.IsArray());
+            if (!has_rules) {
+                BOOST_LOG_TRIVIAL(error) << "Layer has no rules";
+                continue;
+            }
+            ParseRules(rule_itr, layer);
+           
             
             layers_.push_back(layer);
             
         }
         return true;
+    }
+    void MapStyle::ParseRules(const rapidjson::Value::ConstMemberIterator& rule_itr, layer_ptr layer) {
+        
     }
 }
 
