@@ -2,6 +2,7 @@
 #define __MAP_STYLE__H_
 
 #include <vector>
+#include "rule.h"
 #include "boost/shared_ptr.hpp"
 #include "rapidjson/document.h"
 
@@ -9,6 +10,7 @@
 namespace gmap {
     class Layer;
     using layer_ptr = boost::shared_ptr<Layer>;
+    using rule_ptr = boost::shared_ptr<Rule>;
     class MapStyle {
     public:
         MapStyle();
@@ -25,23 +27,12 @@ namespace gmap {
         bool Parse(rapidjson::Document& document);
         bool ParseLayers(rapidjson::Document& document);
         void ParseRules(const rapidjson::Value::ConstMemberIterator& rule_itr, layer_ptr layer);
-        
+        void ParseStyle(std::map<StyleName, TypeDesc>::const_iterator type, rapidjson::Value::ConstMemberIterator attribute, rule_ptr rule);
         std::vector<layer_ptr> layers_;
         std::string datasetDir_;
+        static std::map<StyleName, TypeDesc> type_desc_;
     };
     
-    enum class StyleTypeName {
-        INT,
-        DOUBLE,
-        STRING,
-        VECTOR,     // {1, 2, 3}
-        DOUBLEVECTOR, // {0.2, 0.3, 0.4}
-        VECTOROFVECTOR // {{1, 2, 3}, {4, 5, 6}, ...}
-    };
-    
-    class StyleName {
-        
-    };
 }
 
 #endif
