@@ -27,7 +27,7 @@ namespace gmap {
         bool Parse(rapidjson::Document& document);
         bool ParseLayers(rapidjson::Document& document);
         void ParseRules(const rapidjson::Value::ConstMemberIterator& rule_itr, layer_ptr layer);
-        void ParseStyle(std::map<StyleName, TypeDesc>::const_iterator type, rapidjson::Value::ConstMemberIterator attribute, rule_ptr rule);
+        void ParseRule(std::map<StyleName, TypeDesc>::const_iterator type, rapidjson::Value::ConstMemberIterator attribute, rule_ptr rule);
         std::vector<layer_ptr> layers_;
         std::string datasetDir_;
         static std::map<StyleName, TypeDesc> type_desc_;

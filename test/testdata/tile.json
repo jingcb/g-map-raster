@@ -3,14 +3,30 @@
     "layers": {
         "layer1": {
             "data": "...",
-            "rule": {
+            "rules": [{
                 "renderType": "...",
-                "renderbands": [],
+                "bands": {
+                    "r": 1,
+                    "g": 2,
+                    "b": 3
+                },
+                "band": 1,
                 "colorMap": [{
-                    "value": 20,
-                    "color": [0, 255, 255]
-                }]
-            }
+                        "value": [10, 20],
+                        "color": [0, 255, 255]
+                    },
+                    {
+                        "value": [10, 20],
+                        "color": [0, 255, 255]
+                    }
+                ],
+                "extent": {
+                    "b1": [15, 20],
+                    "b2": [35, 40]
+                }
+            }]
+
+
         }
     }
 }

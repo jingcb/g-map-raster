@@ -16,11 +16,16 @@ namespace gmap {
         VECTOROFVECTOR, // {{1, 2, 3}, {4, 5, 6}, ...}
         MAP,
         MAPOFVECTOR,
-        VECTOROFMAP
+        VECTOROFCOLORMAP
+    };
+    
+    struct ColorMap {
+        std::vector<double> value;
+        std::vector<int> color;
     };
     
     // 属性变量类型
-    using StyleType = boost::variant<int, double, std::string, std::vector<int>, std::vector<double>, std::vector<std::vector<int> > >;
+    using StyleType = boost::variant<int, double, std::string, std::vector<int>, std::vector<double>, std::vector<std::vector<int> >, std::map<std::string, int>,  std::map<std::string, std::vector<double> >, std::vector<ColorMap> >;
     // 属性的描述
     struct TypeDesc {
         // 名称

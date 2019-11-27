@@ -141,15 +141,18 @@ namespace gmap {
             for (std::map<StyleName, TypeDesc>::const_iterator type = type_desc_.begin(); type != type_desc_.end(); ++type) {
                 rapidjson::Value::ConstMemberIterator attribute = rule_itr->value[i].FindMember(type->second.name_.c_str());
                 if (attribute != rule_itr->value[i].MemberEnd()) {
-                    ParseStyle(type, attribute, rule);
+                    std::cout<<type->second.name_<<std::endl;
+                    ParseRule(type, attribute, rule);
                 }
             }
+    
             layer->AddRule(rule);
         }
     }
     
     // ParseStyle
-    void MapStyle::ParseStyle(std::map<StyleName, TypeDesc>::const_iterator type, rapidjson::Value::ConstMemberIterator attribute, rule_ptr rule) {
+    // TODO: rapidjson::array to vector 可以写成一个小函数， map类的应该也可以
+    void MapStyle::ParseRule(std::map<StyleName, TypeDesc>::const_iterator type, rapidjson::Value::ConstMemberIterator attribute, rule_ptr rule) {
         switch (type->second.type_) {
             case StyleTypeName::INT: {
                 if (attribute->value.IsInt()) {
@@ -230,21 +233,80 @@ namespace gmap {
                 }
             }
                 break;
-            case StyleTypeName::VECTOROFVECTOR: {
-                if (attribute->value.IsArray() && attribute->value[rapidjson::SizeType(0)].IsArray() && attribute->value[rapidjson::SizeType(0)][rapidjson::SizeType(0)].IsInt()) {
-                    std::vector<std::vector<int> > vecofvec;
-                    for (rapidjson::SizeType ii = 0; ii < attribute->value.Size(); ++ii) {
-                        std::vector<int> vec;
-                        for (rapidjson::SizeType jj = 0; jj < attribute->value[ii].Size(); ++jj) {
-                            vec.push_back(attribute->value[ii][jj].GetInt());
-                        }
-                        vecofvec.push_back(vec);
+//            case StyleTypeName::VECTOROFVECTOR: {
+//                if (attribute->value.IsArray() && attribute->value[rapidjson::SizeType(0)].IsArray() && attribute->value[rapidjson::SizeType(0)][rapidjson::SizeType(0)].IsInt()) {
+//                    std::vector<std::vector<int> > vecofvec;
+//                    for (rapidjson::SizeType ii = 0; ii < attribute->value.Size(); ++ii) {
+//                        std::vector<int> vec;
+//                        for (rapidjson::SizeType jj = 0; jj < attribute->value[ii].Size(); ++jj) {
+//                            vec.push_back(attribute->value[ii][jj].GetInt());
+//                        }
+//                        vecofvec.push_back(vec);
+//                    }
+//                    rule->SetAttribute(type->first, vecofvec);
+//                } else {
+//
+//                    BOOST_LOG_TRIVIAL(warning) << type->second.name_ + " is not STD::VECTOR<STD::VECTOR<INT>> type";
+//
+//                }
+//            }
+//                break;
+            case StyleTypeName::MAP: {
+                if (attribute->value.IsObject() && attribute->value.MemberBegin()->name.IsString() && attribute->value.MemberBegin()->value.IsInt()) {
+                    std::map<std::string, int> mapData;
+                    for (rapidjson::Value::ConstMemberIterator itr = attribute->value.MemberBegin(); itr != attribute->value.MemberEnd(); ++itr) {
+                        mapData[itr->name.GetString()] = itr->value.GetInt();
                     }
-                    rule->SetAttribute(type->first, vecofvec);
+                    rule->SetAttribute(type->first, mapData);
+
                 } else {
-
-                    BOOST_LOG_TRIVIAL(warning) << type->second.name_ + " is not STD::VECTOR<STD::VECTOR<INT>> type";
-
+                    BOOST_LOG_TRIVIAL(warning) << type->second.name_ + " is not STD::MAP<STD::STRING, INT> type";
+                }
+                
+            }
+                break;
+            case StyleTypeName::MAPOFVECTOR: {
+                if (attribute->value.IsObject() && attribute->value.MemberBegin()->name.IsString() && attribute->value.MemberBegin()->value.IsArray()) {
+                    
+                    std::map<std::string, std::vector<double>> mapData;
+                    
+                    for (rapidjson::Value::ConstMemberIterator itr = attribute->value.MemberBegin(); itr != attribute->value.MemberEnd(); ++itr) {
+                        
+                        std::vector<double> valueVec;
+                        for (rapidjson::SizeType i = 0; i < itr->value.Size(); ++i) {
+                                valueVec.push_back(itr->value[i].GetDouble());
+                        }
+                        
+                        mapData[itr->name.GetString()] = valueVec;
+                    }
+                    rule->SetAttribute(type->first, mapData);
+                    
+                } else {
+                    BOOST_LOG_TRIVIAL(warning) << type->second.name_ + " is not STD::MAP<STD::STRING, STD::VECTOR<DOUBLE> > type";
+                }
+                
+            }
+                break;
+            case StyleTypeName::VECTOROFCOLORMAP: {
+                if (attribute->value.IsArray()) {
+                    std::vector<ColorMap> colorMapVec;
+                    for (rapidjson::SizeType i = 0; i < attribute->value.Size(); ++i) {
+                        ColorMap colorMap;
+                        for (rapidjson::Value::ConstMemberIterator itr = attribute->value[i].MemberBegin(); itr != attribute->value[i].MemberEnd(); ++itr) {
+                            if (itr->value.IsDouble()) {
+                                colorMap.value.push_back(itr->value.GetDouble());
+                            }
+                            if (itr->value.IsInt()) {
+                                colorMap.color.push_back(itr->value.GetInt());
+                            }
+                        }
+                        colorMapVec.push_back(colorMap);
+                    }
+                    
+                    rule->SetAttribute(type->first, colorMapVec);
+                
+                } else {
+                    BOOST_LOG_TRIVIAL(warning) << type->second.name_ + " is not STD::VECTOR<COLORMAP > type";
                 }
             }
                 break;
@@ -261,6 +323,6 @@ namespace gmap {
     (StyleName::extent,                        TypeDesc("extent", StyleTypeName::MAPOFVECTOR))
     (StyleName::nodata,                        TypeDesc("nodata", StyleTypeName::DOUBLE))
     (StyleName::band,                          TypeDesc("band", StyleTypeName::INT))
-    (StyleName::colorMap,                      TypeDesc("colorMap", StyleTypeName::VECTOROFMAP));
+    (StyleName::colorMap,                      TypeDesc("colorMap", StyleTypeName::VECTOROFCOLORMAP));
 }
 
