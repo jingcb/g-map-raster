@@ -116,7 +116,7 @@ namespace gmap {
             //获得数据
             rapidjson::Value::ConstMemberIterator  data_itr = itr->value.FindMember("data");
             std::string dataName = data_itr->value.GetString();
-            layer_ptr layer = boost::make_shared<Layer>(layerName,  datasetDir_ + "/" +dataName);
+            layer_ptr layer = boost::make_shared<Layer>(layerName,  datasetDir_ + "/" + dataName);
             
             //获取配置
             rapidjson::Value::ConstMemberIterator rule_itr = itr->value.FindMember("rules");
@@ -293,12 +293,17 @@ namespace gmap {
                     for (rapidjson::SizeType i = 0; i < attribute->value.Size(); ++i) {
                         ColorMap colorMap;
                         for (rapidjson::Value::ConstMemberIterator itr = attribute->value[i].MemberBegin(); itr != attribute->value[i].MemberEnd(); ++itr) {
-                            if (itr->value.IsDouble()) {
-                                colorMap.value.push_back(itr->value.GetDouble());
+                            if (itr->value.IsArray()) {
+                                for (rapidjson::SizeType j = 0; j < itr->value.Size(); ++j) {
+                                    if (itr->value[j].IsDouble()) {
+                                        colorMap.value.push_back(itr->value[j].GetDouble());
+                                    }
+                                    if (itr->value[j].IsInt()) {
+                                        colorMap.color.push_back(itr->value[j].GetInt());
+                                    }
+                                }
                             }
-                            if (itr->value.IsInt()) {
-                                colorMap.color.push_back(itr->value.GetInt());
-                            }
+                            
                         }
                         colorMapVec.push_back(colorMap);
                     }

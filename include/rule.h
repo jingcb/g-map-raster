@@ -58,7 +58,7 @@ namespace gmap {
         
         Rule& operator=(Rule rhs);
         /** 是否包含某个属性 */
-        bool hasAttribute(StyleName key);
+        bool HasAttribute(StyleName key);
         
         /** 根据属性名称获得属性值 */
         StyleType GetAttribute(StyleName key);

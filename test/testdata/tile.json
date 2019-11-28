@@ -1,10 +1,10 @@
 {
-    "datasetDir": "...",
+    "datasetDir": "/Users/chenbojing/data/raster",
     "layers": {
         "layer1": {
-            "data": "...",
+            "data": "yeguang2015.tif",
             "rules": [{
-                "renderType": "...",
+                "renderType": "category",
                 "bands": {
                     "r": 1,
                     "g": 2,
@@ -12,11 +12,11 @@
                 },
                 "band": 1,
                 "colorMap": [{
-                        "value": [10, 20],
+                        "value": [0.111, 10000000.123],
                         "color": [0, 255, 255]
                     },
                     {
-                        "value": [10, 20],
+                        "value": [-1.111, 0.123],
                         "color": [0, 255, 255]
                     }
                 ],

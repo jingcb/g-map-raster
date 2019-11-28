@@ -10,7 +10,7 @@ namespace gmap {
         return *this;
     }
     
-    bool Rule::hasAttribute(StyleName key) {
+    bool Rule::HasAttribute(StyleName key) {
         if (attributes_.find(key) != attributes_.end()) {
             return true;
         } else {

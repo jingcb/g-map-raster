@@ -8,13 +8,15 @@
 namespace gmap {
     class Rule;
     using rule_ptr = boost::shared_ptr<Rule>;
+    class COGDataSource;
+    using cogdatasource_ptr = boost::shared_ptr<COGDataSource>;
     class RenderBase {
     public:
         RenderBase(sk_sp<SkSurface> surface);
         ~RenderBase();
         
-        bool Render(rule_ptr rule, float* const imageData, const int& width, const int& height);
-        bool CategoryRender(const std::vector<double>& valueVec, const std::vector<std::vector<int>>& colorVec, const int& width, const int& height, float* const imageData);
+        bool Render(rule_ptr rule, cogdatasource_ptr dataSource);
+        bool CategoryRender(rule_ptr rule, cogdatasource_ptr dataSource);
     private:
         sk_sp<SkSurface> surface_;
     };

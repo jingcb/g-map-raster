@@ -10,6 +10,8 @@ namespace gmap {
     
     class Rule;
     using rule_ptr = boost::shared_ptr<Rule>;
+    class COGDataSource;
+    using cogdatasource_ptr = boost::shared_ptr<COGDataSource>;
     class Layer {
     public:
         Layer();
@@ -17,11 +19,15 @@ namespace gmap {
         
         //设置图层渲染的风格
         void AddRule(rule_ptr rule) { if(rule != nullptr) ruleVec_.push_back(rule); };
+        rule_ptr GetRule(const int& idx);
+        int GetRuleCount() { return ruleVec_.size(); };
         std::string GetDataPath() { return dataPath_;};
+        cogdatasource_ptr GetDataSource(const int& xmin, const int& ymin, const int& xmax, const int& ymax);
     private:
         std::string layerName_;
         std::string dataPath_;
         std::vector<rule_ptr> ruleVec_;
+        
     };
     
 }
