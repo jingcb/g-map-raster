@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+# 3rd
+3rd/*
+
+out/*

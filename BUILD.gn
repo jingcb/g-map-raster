@@ -1,0 +1,90 @@
+group("g-map") {
+  deps = [
+    ":test",
+  ]
+}
+executable("test") {
+  sources = [
+    "//test/test.cpp",
+  ]
+  include_dirs = [
+    "/usr/local/include",
+    "//include/",
+    "//3rd/skia",
+    "//3rd/",
+  ]
+  libs = [
+    "/usr/local/lib/libboost_system-mt.a",
+    "/usr/local/lib/libboost_thread-mt.a",
+    "/usr/local/lib/libboost_filesystem-mt.a",
+    "/usr/local/lib/libboost_date_time-mt.a",
+    "/usr/local/lib/libboost_timer-mt.a",
+    "/usr/local/lib/libboost_chrono-mt.a",
+    "/usr/local/lib/libboost_log-mt.a",
+    "/usr/local/lib/libboost_log_setup-mt.a",
+    "/usr/local/lib/libboost_log.a",
+    "/usr/local/lib/libboost_regex-mt.a",
+    "gdal",
+  ]
+  deps = [
+    ":rastermap",
+  ]
+}
+static_library("rastermap") {
+  sources = [
+    "//include/COGDataSource.h",
+    "//include/RenderBase.h",
+    "//include/layer.h",
+    "//include/map.h",
+    "//include/map_style.h",
+    "//include/rule.h",
+    "//include/utils/debug_utility.h",
+    "//src/COGDataSource.cpp",
+    "//src/RenderBase.cpp",
+    "//src/layer.cpp",
+    "//src/map.cpp",
+    "//src/map_style.cpp",
+    "//src/rule.cpp",
+  ]
+
+  include_dirs = [
+    "/usr/local/include",
+    "//include/",
+    "//3rd/skia",
+    "//3rd/",
+  ]
+
+  libs = [
+    "skia",
+    "pathkit",
+    "modules__particles",
+    "modules__skottie",
+    "modules__sksg",
+    "modules__skshaper",
+    "third_party__dng_sdk",
+    "third_party__expat",
+    "third_party__harfbuzz",
+    "third_party__icu",
+    "third_party__libjpeg-turbo_libjpeg",
+    "third_party__libpng",
+    "third_party__libwebp_libwebp_sse41",
+    "third_party__libwebp",
+    "third_party__piex",
+    "third_party__sfntly",
+    "third_party__spirv-tools",
+    "third_party__zlib_zlib_x86",
+    "third_party__zlib",
+    "gdal",
+  ]
+  if (target_os == "mac") {
+    libs += [
+      "AppKit.framework",
+      "ApplicationServices.framework",
+      "OpenGL.framework",
+    ]
+  }
+  lib_dirs = [
+    "/usr/local/lib",
+    "//3rd/skia/lib/",
+  ]
+}
