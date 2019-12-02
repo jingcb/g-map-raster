@@ -22,7 +22,7 @@ namespace gmap {
         rule_ptr GetRule(const int& idx);
         int GetRuleCount() { return ruleVec_.size(); };
         std::string GetDataPath() { return dataPath_;};
-        cogdatasource_ptr GetDataSource(const int& xmin, const int& ymin, const int& xmax, const int& ymax);
+        cogdatasource_ptr GetDataSource(const double& xmin, const double& ymin, const double& xmax, const double& ymax);
     private:
         std::string layerName_;
         std::string dataPath_;

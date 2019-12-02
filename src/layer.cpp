@@ -20,7 +20,7 @@ namespace gmap {
         }
         return nullptr;
     }
-    cogdatasource_ptr Layer::GetDataSource(const int& xmin, const int& ymin, const int& xmax, const int& ymax){
+    cogdatasource_ptr Layer::GetDataSource(const double& xmin, const double& ymin, const double& xmax, const double& ymax){
         cogdatasource_ptr cogDataSource = boost::make_shared<COGDataSource>();
         cogDataSource->SetDataPath(this->GetDataPath());
         cogDataSource->SetSpitialFilter(xmin, ymin, xmax, ymax);

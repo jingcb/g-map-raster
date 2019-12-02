@@ -16,6 +16,7 @@
 
 #include "utils/debug_utility.h"
 
+
 namespace gmap {
     
     COGDataSource::COGDataSource() : filepath_("") {
@@ -44,17 +45,17 @@ namespace gmap {
         sprintf(heightStr, "%d", height);
         
         char xmin[256];
-        sprintf(xmin, "%f", xmin_);
+        sprintf(xmin, "%.4f", xmin_);
         char ymin[256];
-        sprintf(ymin, "%f", ymin_);
+        sprintf(ymin, "%.4f", ymin_);
         char xmax[256];
-        sprintf(xmax, "%f", xmax_);
+        sprintf(xmax, "%.4f", xmax_);
         char ymax[256];
-        sprintf(ymax, "%f", ymax_);
+        sprintf(ymax, "%.4f", ymax_);
         
         char filepath[256];
         sprintf(filepath, "%s", filepath_.c_str());
-        char* warpArgv[] = {"-te", xmin, ymin, xmax, ymax, "-t_srs", "epsg:3587", "-ts", widthStr, heightStr, filepath, "/vsimem/", "-q", nullptr};
+        char* warpArgv[] = {"-te", xmin, ymin, xmax, ymax, "-t_srs", "epsg:3857", "-ts", widthStr, heightStr, filepath, "/vsimem/", "-q", nullptr};
         
         //int test = CSLCount(warpArgv);
         //char* warpArgv[] = {"-te", "123", "456", "150", "500", "-t_srs", "epsg:3587", "-ts", "200", "200", "filepath", "/vsimem/", "-q", nullptr};
@@ -70,21 +71,15 @@ namespace gmap {
             return false;
         }
         
-        VSIStatBufL sStat;
-        if( VSIStatExL("/vsimem/", &sStat, VSI_STAT_EXISTS_FLAG | VSI_STAT_NATURE_FLAG) == 0 &&
-           S_ISFIFO(sStat.st_mode) )
-        {
-            
-        }
         GDALDatasetH hDstDS = nullptr;
-        GDALOpenEx( "/vsimem/", GDAL_OF_RASTER | GDAL_OF_VERBOSE_ERROR | GDAL_OF_UPDATE, nullptr, nullptr, nullptr );
+        //hDstDS = GDALOpenEx( "/vsimem/", GDAL_OF_RASTER | GDAL_OF_VERBOSE_ERROR | GDAL_OF_UPDATE, nullptr, nullptr, nullptr );
         
         if( hDstDS != nullptr )
         {
             return false;
         }
         int bUsageError = 0;
-        GDALDatasetH hOutDS = GDALWarp("/vsimem/", hDstDS,
+        GDALDatasetH hOutDS = GDALWarp("/vsimem/", nullptr,
                                        1, pahSrcDS, psOptions, &bUsageError);
         GDALRasterBandH pRasterband = GDALGetRasterBand(hOutDS, band);
         if(GDALRasterIO(pRasterband, GF_Read, 0, 0, width, height, imageData, width, height, GDT_Float32, 0, 0) == CPLErr::CE_Failure) {

@@ -51,7 +51,8 @@ namespace gmap {
                 pixels[i][j] = SkColorSetARGB(0, 0, 0, 0);
                 
                 for (int k = 0; k < colorMapVec.size(); ++k) {
-                    if ((imgData[i * width + height] > colorMapVec[k].value[0]) && (imgData[i * width + height] <= colorMapVec[k].value[1])) {
+                    
+                    if ((imgData[i * width + j] > colorMapVec[k].value[0]) && (imgData[i * width + j] <= colorMapVec[k].value[1])) {
                         pixels[i][j] = SkColorSetARGB(255, colorMapVec[k].color[0], colorMapVec[k].color[1], colorMapVec[k].color[2]);
                         break;
                     }
