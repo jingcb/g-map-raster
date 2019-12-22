@@ -293,16 +293,19 @@ namespace gmap {
                     for (rapidjson::SizeType i = 0; i < attribute->value.Size(); ++i) {
                         ColorMap colorMap;
                         for (rapidjson::Value::ConstMemberIterator itr = attribute->value[i].MemberBegin(); itr != attribute->value[i].MemberEnd(); ++itr) {
-                            if (itr->value.IsArray()) {
+                            
+                            std::string attrName = itr->name.GetString();
+                            if (attrName == "color") {
                                 for (rapidjson::SizeType j = 0; j < itr->value.Size(); ++j) {
-                                    if (itr->value[j].IsDouble()) {
-                                        colorMap.value.push_back(itr->value[j].GetDouble());
-                                    }
-                                    if (itr->value[j].IsInt()) {
-                                        colorMap.color.push_back(itr->value[j].GetInt());
-                                    }
+                                    colorMap.color.push_back(itr->value[j].GetInt());
+                                }
+                                
+                            } else if (attrName == "value") {
+                                for (rapidjson::SizeType j = 0; j < itr->value.Size(); ++j) {
+                                    colorMap.value.push_back(itr->value[j].GetDouble());
                                 }
                             }
+                            
                             
                         }
                         colorMapVec.push_back(colorMap);
