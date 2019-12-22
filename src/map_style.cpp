@@ -141,7 +141,6 @@ namespace gmap {
             for (std::map<StyleName, TypeDesc>::const_iterator type = type_desc_.begin(); type != type_desc_.end(); ++type) {
                 rapidjson::Value::ConstMemberIterator attribute = rule_itr->value[i].FindMember(type->second.name_.c_str());
                 if (attribute != rule_itr->value[i].MemberEnd()) {
-                    std::cout<<type->second.name_<<std::endl;
                     ParseRule(type, attribute, rule);
                 }
             }
