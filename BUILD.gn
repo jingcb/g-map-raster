@@ -38,6 +38,7 @@ static_library("rastermap") {
     "//include/map.h",
     "//include/map_style.h",
     "//include/rule.h",
+    "//include/tile_map.h",
     "//include/utils/debug_utility.h",
     "//src/COGDataSource.cpp",
     "//src/RenderBase.cpp",
@@ -45,6 +46,7 @@ static_library("rastermap") {
     "//src/map.cpp",
     "//src/map_style.cpp",
     "//src/rule.cpp",
+    "//src/tile_map.cpp",
   ]
 
   include_dirs = [
