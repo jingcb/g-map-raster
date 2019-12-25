@@ -21,6 +21,7 @@ namespace gmap {
     
     struct ColorMap {
         std::vector<double> value;
+        
         std::vector<int> color;
     };
     

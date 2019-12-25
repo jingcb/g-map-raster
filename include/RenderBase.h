@@ -17,6 +17,7 @@ namespace gmap {
         
         bool Render(rule_ptr rule, cogdatasource_ptr dataSource);
         bool CategoryRender(rule_ptr rule, cogdatasource_ptr dataSource);
+        bool ChoroplethRender(rule_ptr rule, cogdatasource_ptr dataSource);
     private:
         sk_sp<SkSurface> surface_;
     };

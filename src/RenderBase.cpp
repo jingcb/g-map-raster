@@ -22,11 +22,16 @@ namespace gmap {
         std::string renderType = boost::get<std::string>(rule->GetAttribute(StyleName::renderType));
         if (renderType == "category") {
             return this->CategoryRender(rule, dataSource);
+        } else if (renderType == "choropleth") {
+            return this->ChoroplethRender(rule, dataSource);
+        } else if (renderType == "RGB") {
+            
         }
-        
         return true;
     };
-    bool RenderBase::CategoryRender(rule_ptr rule, cogdatasource_ptr dataSource) {
+    
+    // 分段渲染
+    bool RenderBase::ChoroplethRender(rule_ptr rule, cogdatasource_ptr dataSource) {
         int width = surface_->width();
         int height = surface_->height();
         if(!rule->HasAttribute(StyleName::band)) {
@@ -53,6 +58,48 @@ namespace gmap {
                 for (int k = 0; k < colorMapVec.size(); ++k) {
                     
                     if ((imgData[i * width + j] > colorMapVec[k].value[0]) && (imgData[i * width + j] <= colorMapVec[k].value[1])) {
+                        pixels[i][j] = SkColorSetARGB(255, colorMapVec[k].color[0], colorMapVec[k].color[1], colorMapVec[k].color[2]);
+                        break;
+                    }
+                }
+            }
+        }
+        SkCanvas *canvas = surface_->getCanvas();
+        SkImageInfo imageInfo = SkImageInfo::MakeN32Premul(width, height);
+        canvas->writePixels(imageInfo, pixels, sizeof(pixels[0]), 0, 0);
+        
+        return true;
+    };
+    
+    
+    // 单值渲染
+    bool RenderBase::CategoryRender(rule_ptr rule, cogdatasource_ptr dataSource) {
+        int width = surface_->width();
+        int height = surface_->height();
+        if(!rule->HasAttribute(StyleName::band)) {
+            BOOST_LOG_TRIVIAL(error) << "rule don't have attribute: band";
+            return false;
+        }
+        int band = boost::get<int>(rule->GetAttribute(StyleName::band));
+        float* imgData = new float[width * height];
+        if (imgData == nullptr) {
+            return false;
+        }
+        
+        dataSource->ReadRaster(width, height, band, imgData);
+        if(!rule->HasAttribute(StyleName::colorMap)) {
+            BOOST_LOG_TRIVIAL(error) << "rule don't have attribute: colorMap";
+            return false;
+        }
+        std::vector<ColorMap> colorMapVec = boost::get<std::vector<ColorMap> >(rule->GetAttribute(StyleName::colorMap));
+        uint32_t pixels[width][height];
+        for (int i = 0; i < width; ++i) {
+            for (int j = 0; j < height; ++j) {
+                pixels[i][j] = SkColorSetARGB(0, 0, 0, 0);
+                
+                for (int k = 0; k < colorMapVec.size(); ++k) {
+                    
+                    if (imgData[i * width + j] == colorMapVec[k].value[0]) {
                         pixels[i][j] = SkColorSetARGB(255, colorMapVec[k].color[0], colorMapVec[k].color[1], colorMapVec[k].color[2]);
                         break;
                     }

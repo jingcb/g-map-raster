@@ -286,6 +286,7 @@ namespace gmap {
                 
             }
                 break;
+            // TODO: 解析逻辑仍有问题，需要重构
             case StyleTypeName::VECTOROFCOLORMAP: {
                 if (attribute->value.IsArray()) {
                     std::vector<ColorMap> colorMapVec;
@@ -300,12 +301,15 @@ namespace gmap {
                                 }
                                 
                             } else if (attrName == "value") {
-                                for (rapidjson::SizeType j = 0; j < itr->value.Size(); ++j) {
-                                    colorMap.value.push_back(itr->value[j].GetDouble());
+                                if (itr->value.IsArray()) {
+                                    for (rapidjson::SizeType j = 0; j < itr->value.Size(); ++j) {
+                                        colorMap.value.push_back(itr->value[j].GetDouble());
+                                    }
+                                } else {
+                                    colorMap.value.push_back(itr->value.GetDouble());
                                 }
+                                
                             }
-                            
-                            
                         }
                         colorMapVec.push_back(colorMap);
                     }

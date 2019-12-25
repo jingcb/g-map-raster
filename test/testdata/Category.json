@@ -2,7 +2,7 @@
     "datasetDir": "/Users/chenbojing/data/raster",
     "layers": {
         "layer1": {
-            "data": "yeguang2015.tif",
+            "data": "2017_corp.tif",
             "rules": [{
                 "renderType": "category",
                 "bands": {
@@ -12,12 +12,16 @@
                 },
                 "band": 1,
                 "colorMap": [{
-                        "value": [0.0, 10000000.123],
+                        "value": 0,
                         "color": [0, 255, 0]
                     },
                     {
-                        "value": [-50.0, 0.0],
+                        "value": 1,
                         "color": [0, 0, 255]
+                    },
+                    {
+                        "value": 5,
+                        "color": [255, 0, 0]
                     }
                 ],
                 "extent": {
