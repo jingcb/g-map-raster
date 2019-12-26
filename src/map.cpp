@@ -11,6 +11,7 @@
 #include "include/core/SkEncodedImageFormat.h"
 
 namespace gmap {
+    Map::Map() {};
     Map::Map(int width, int height):
     width_(width),
     height_(height),

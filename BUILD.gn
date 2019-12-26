@@ -1,6 +1,7 @@
 group("g-map") {
   deps = [
     ":test",
+    ":test_tile",
   ]
 }
 executable("test") {
@@ -13,23 +14,26 @@ executable("test") {
     "//3rd/skia",
     "//3rd/",
   ]
-  libs = [
-    "/usr/local/lib/libboost_system-mt.a",
-    "/usr/local/lib/libboost_thread-mt.a",
-    "/usr/local/lib/libboost_filesystem-mt.a",
-    "/usr/local/lib/libboost_date_time-mt.a",
-    "/usr/local/lib/libboost_timer-mt.a",
-    "/usr/local/lib/libboost_chrono-mt.a",
-    "/usr/local/lib/libboost_log-mt.a",
-    "/usr/local/lib/libboost_log_setup-mt.a",
-    "/usr/local/lib/libboost_log.a",
-    "/usr/local/lib/libboost_regex-mt.a",
-    "gdal",
+  deps = [
+    ":rastermap",
+  ]
+}
+
+executable("test_tile") {
+  sources = [
+    "//test/test_tile.cpp",
+  ]
+  include_dirs = [
+    "/usr/local/include",
+    "//include/",
+    "//3rd/skia",
+    "//3rd/",
   ]
   deps = [
     ":rastermap",
   ]
 }
+
 static_library("rastermap") {
   sources = [
     "//include/COGDataSource.h",
@@ -76,6 +80,18 @@ static_library("rastermap") {
     "third_party__spirv-tools",
     "third_party__zlib_zlib_x86",
     "third_party__zlib",
+
+    "/usr/local/lib/libboost_system-mt.a",
+    "/usr/local/lib/libboost_thread-mt.a",
+    "/usr/local/lib/libboost_filesystem-mt.a",
+    "/usr/local/lib/libboost_date_time-mt.a",
+    "/usr/local/lib/libboost_timer-mt.a",
+    "/usr/local/lib/libboost_chrono-mt.a",
+    "/usr/local/lib/libboost_log-mt.a",
+    "/usr/local/lib/libboost_log_setup-mt.a",
+    "/usr/local/lib/libboost_log.a",
+    "/usr/local/lib/libboost_regex-mt.a",
+
     "gdal",
   ]
   if (target_os == "mac") {

@@ -14,6 +14,7 @@ namespace gmap {
     class Map{
     public:
         // 初始化地图
+        Map();
         Map(int width, int height);
         ~Map();
         
@@ -22,6 +23,8 @@ namespace gmap {
         
         void SetBounds(const double &xmin, const double &ymin, const double &xmax, const double &ymax);
         void SetRes(const double &res);
+        void SetWidth(const int &width) {width_ = width;};
+        void SetHeight(const int &height) {height_ = height;};
         
         bool Render();
         bool SaveFile(const std::string filePath);
