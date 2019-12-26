@@ -4,10 +4,10 @@
 int main() {
     MappingLog::Init(Severity::debug);
     boost::timer::auto_cpu_timer timer("raphicSink::Record: %w clock time,%t totle program time\n");
-    unsigned int z =
-    unsigned int x =
-    unsigned int y =
-    TileMap tile();
+    unsigned int z = 11;
+    unsigned int x = 481;
+    unsigned int y = 756;
+    gmap::TileMap tile(z, x, y);
     
     if(!tile.Tile("/Users/chenbojing/develop/g-map-raster/test/testdata/Category.json", true, 2)) {
         BOOST_LOG_TRIVIAL(error) << "Init fail";

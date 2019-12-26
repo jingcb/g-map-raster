@@ -12,8 +12,10 @@ namespace gmap {
         
         this->width_ = this->tileSize_ * retina;
         this->height_ = this->tileSize_ * retina;
-        
-        if (Map::Init(style, fromfile)) {
+        if (surface_ == nullptr) {
+            surface_ = SkSurface::MakeRasterN32Premul(width_, height_);
+        }
+        if (!Map::Init(style, fromfile)) {
             BOOST_LOG_TRIVIAL(error) << "Load style fail !!!";
             return false;
         }
@@ -21,6 +23,7 @@ namespace gmap {
             BOOST_LOG_TRIVIAL(error) << "Calculate tile fail!";
             return false;
         }
+        
         if (!Map::Render()) {
             BOOST_LOG_TRIVIAL(error) << "Render tile fail!";
             return false;
@@ -34,13 +37,13 @@ namespace gmap {
             return false;
         }
         
-        double tileExtent = this->tileSize_ * this->zoomReses_[level_];
+        double tileExtent = this->tileSize_ * zoomReses_[level_];
         double tileOriginalX = this->originX_ + row_ * tileExtent;
         double tileOriginalY = this->originY_ - col_ * tileExtent;
         xmin_ = tileOriginalX;
         ymin_ = tileOriginalY - tileExtent;
         xmax_ = tileOriginalX + tileExtent;
         ymax_ = tileOriginalY;
-        
+        return true;
     }
 }
