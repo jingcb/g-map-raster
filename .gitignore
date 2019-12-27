@@ -35,3 +35,6 @@
 3rd/*
 
 out/*
+
+*/build/*
+*/node_modules/*
