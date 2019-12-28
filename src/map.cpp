@@ -20,6 +20,7 @@ namespace gmap {
     xmax_(0),
     ymax_(0) {
         surface_ = SkSurface::MakeRasterN32Premul(width_, height_);
+        
     }
     
     Map::~Map(){}
@@ -71,6 +72,26 @@ namespace gmap {
         }
         
         (void)out.write(png->data(), png->size());
+        return true;
+    }
+    bool Map::SaveStream(std::string &stream) {
+        SkDynamicMemoryWStream wStream;
+        SkImageInfo imageInfo;
+        
+        imageInfo = SkImageInfo::MakeN32Premul(width_, height_);
+        bitmap_.allocPixels(imageInfo);
+        surface_->readPixels(bitmap_, 0, 0);
+        if(!SkEncodeImage(&wStream, bitmap_, SkEncodedImageFormat::kPNG, 100)) {
+            return false;
+        }
+        int length = wStream.bytesWritten();
+        char* imageChar = new char[length];
+        wStream.copyTo(imageChar);
+        wStream.reset();
+        
+        stream = std::string(imageChar, length);
+        
+        delete[] imageChar;
         return true;
     }
 }

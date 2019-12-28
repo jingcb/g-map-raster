@@ -28,6 +28,7 @@ namespace gmap {
         
         bool Render();
         bool SaveFile(const std::string filePath);
+        bool SaveStream(std::string &stream);
 
         inline double xmin() { return xmin_; };
         inline double ymin() { return ymin_; };
