@@ -37,11 +37,12 @@ public:
                                    // rotate files every 10 MiB...
                                    keywords::rotation_size = 10 * 1024 * 1024,
                                    // ...or at midnight
-                                   keywords::time_based_rotation = sinks::file::rotation_at_time_interval(boost::posix_time::minutes(1)),
+                                   keywords::time_based_rotation = sinks::file::rotation_at_time_interval(boost::posix_time::hours(1)),
                                    // keywords::time_based_rotation = sinks::file::rotation_at_time_point(0, 0, 0),
                                    // keywords::time_based_rotation =
                                    // log record format
                                    keywords::format = "[%TimeStamp%]: %Message%");
+            logging::core::get()->add_global_attribute("TimeStamp",logging::attributes::local_clock());
         }
         
         switch (severity) {

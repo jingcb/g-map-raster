@@ -1,7 +1,30 @@
 #include <node.h>
 #include <nan.h>
 #include "tile_map.h"
+#include "utils/debug_utility.h"
+
+#define TOSTR(obj) (*v8::String::Utf8Value((obj)->ToString()))
+
 using namespace gmap;
+NAN_METHOD(initLog) {
+    // default print detail log
+    int severity = 5;
+    
+    // default print to console
+    std::string log_folder = "";
+    
+    if (info.Length() >= 1) {
+        severity  = info[0]->IntegerValue();
+    }
+    
+    if (info.Length() >= 2) {
+        log_folder = TOSTR(info[1]);
+    }
+    
+    MappingLog::Init(static_cast<Severity>(severity), log_folder);
+    
+    return;
+}
 struct Baton {
     uv_work_t request;
     Nan::Persistent<v8::Function> callback;

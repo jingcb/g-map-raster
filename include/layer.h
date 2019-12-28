@@ -4,6 +4,7 @@
 #include "rapidjson/document.h"
 #include <boost/shared_ptr.hpp>
 #include <vector>
+#include <string>
 
 namespace gmap {
     //存储图层信息，包括图层用到的数据，渲染图层的风格
