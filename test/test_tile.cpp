@@ -2,7 +2,7 @@
 #include "utils/debug_utility.h"
 #include <boost/timer/timer.hpp>
 int main() {
-    MappingLog::Init(Severity::debug);
+    MappingLog::Init(Severity::debug, "/Users/chenbojing/develop/g-map-raster/test/testdata/test.log");
     boost::timer::auto_cpu_timer timer("raphicSink::Record: %w clock time,%t totle program time\n");
     unsigned int z = 11;
     unsigned int x = 481;
