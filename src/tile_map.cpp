@@ -37,7 +37,7 @@ namespace gmap {
             return false;
         }
         
-        double tileExtent = this->tileSize_ * zoomReses_[level_];
+        double tileExtent = this->tileSize_ * ZOOM_RESES[level_];
         double tileOriginalX = this->originX_ + row_ * tileExtent;
         double tileOriginalY = this->originY_ - col_ * tileExtent;
         xmin_ = tileOriginalX;
