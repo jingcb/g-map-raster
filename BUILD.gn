@@ -54,7 +54,8 @@ static_library("rastermap") {
   ]
 
   include_dirs = [
-    "/usr/local/include",
+    "//3rd/boost/include",
+
     "//include/",
     "//3rd/skia",
     "//3rd/",
@@ -81,17 +82,15 @@ static_library("rastermap") {
     "third_party__zlib_zlib_x86",
     "third_party__zlib",
 
-    "/usr/local/lib/libboost_system-mt.a",
-    "/usr/local/lib/libboost_thread-mt.a",
-    "/usr/local/lib/libboost_filesystem-mt.a",
-    "/usr/local/lib/libboost_date_time-mt.a",
-    "/usr/local/lib/libboost_timer-mt.a",
-    "/usr/local/lib/libboost_chrono-mt.a",
-    "/usr/local/lib/libboost_log-mt.a",
-    "/usr/local/lib/libboost_log_setup-mt.a",
-    "/usr/local/lib/libboost_log.a",
-    "/usr/local/lib/libboost_regex-mt.a",
-
+    "//3rd/boost/lib/libboost_system-mt-x64.a",
+    "//3rd/boost/lib/libboost_thread-mt-x64.a",
+    "//3rd/boost/lib/libboost_filesystem-mt-x64.a",
+    "//3rd/boost/lib/libboost_date_time-mt-x64.a",
+    "//3rd/boost/lib/libboost_timer-mt-x64.a",
+    "//3rd/boost/lib/libboost_chrono-mt-x64.a",
+    "//3rd/boost/lib/libboost_log-mt-x64.a",
+    "//3rd/boost/lib/libboost_log_setup-mt-x64.a",
+    "//3rd/boost/lib/libboost_regex-mt-x64.a",
     "gdal",
   ]
   if (target_os == "mac") {
@@ -101,8 +100,5 @@ static_library("rastermap") {
       "OpenGL.framework",
     ]
   }
-  lib_dirs = [
-    "/usr/local/lib",
-    "//3rd/skia/lib/",
-  ]
+  lib_dirs = [ "//3rd/skia/lib/" ]
 }
