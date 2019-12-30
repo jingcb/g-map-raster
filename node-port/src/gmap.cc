@@ -131,7 +131,7 @@ static void initAll(v8::Handle<v8::Object> target) {
     Nan::HandleScope scope;
     
     // module level functions
-    // Nan::SetMethod(target, "initLog", initLog);
+    Nan::SetMethod(target, "initLog", initLog);
     // Nan::SetMethod(target, "registerFonts", registerFonts);
     // Nan::SetMethod(target, "registerPool", registerPool);
     // Nan::SetMethod(target, "registerStorage", registerStorage);
