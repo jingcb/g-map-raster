@@ -38,3 +38,6 @@ out/*
 
 */build/*
 */node_modules/*
+*/out/*
+*/testdata/*
+*/log/*
