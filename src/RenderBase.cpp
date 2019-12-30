@@ -64,6 +64,7 @@ namespace gmap {
                 }
             }
         }
+        delete[] imgData;
         SkCanvas *canvas = surface_->getCanvas();
         SkImageInfo imageInfo = SkImageInfo::MakeN32Premul(width, height);
         canvas->writePixels(imageInfo, pixels, sizeof(pixels[0]), 0, 0);
@@ -106,6 +107,7 @@ namespace gmap {
                 }
             }
         }
+        delete[] imgData;
         SkCanvas *canvas = surface_->getCanvas();
         SkImageInfo imageInfo = SkImageInfo::MakeN32Premul(width, height);
         canvas->writePixels(imageInfo, pixels, sizeof(pixels[0]), 0, 0);
