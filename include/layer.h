@@ -2,7 +2,7 @@
 #define __LAYER__H__
 
 #include "rapidjson/document.h"
-#include <boost/shared_ptr.hpp>
+#include "boost/shared_ptr.hpp"
 #include <vector>
 #include <string>
 

@@ -45,7 +45,7 @@ namespace gmap {
         mapstyle_ptr mapStyle_;
         SkBitmap bitmap_;
         sk_sp<SkSurface> surface_;
-        cogdatasource_ptr cogDataSource;
+        cogdatasource_ptr cogDataSource_;
     };
 }
 #endif

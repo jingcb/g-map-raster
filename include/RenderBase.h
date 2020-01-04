@@ -2,7 +2,7 @@
 #define __RENDER_BASE__H__
 
 #include <vector>
-#include <boost/shared_ptr.hpp>
+#include "boost/shared_ptr.hpp"
 #include "include/core/SkSurface.h"
 
 namespace gmap {

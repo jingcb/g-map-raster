@@ -11,14 +11,15 @@
 #include "include/core/SkEncodedImageFormat.h"
 
 namespace gmap {
-    Map::Map() {};
+    Map::Map() : cogDataSource_(boost::make_shared<COGDataSource>()){};
     Map::Map(int width, int height):
     width_(width),
     height_(height),
     xmin_(0),
     ymin_(0),
     xmax_(0),
-    ymax_(0) {
+    ymax_(0),
+    cogDataSource_(boost::make_shared<COGDataSource>()){
         surface_ = SkSurface::MakeRasterN32Premul(width_, height_);
         
     }
@@ -38,6 +39,8 @@ namespace gmap {
     }
     
     bool Map::Render() {
+        BOOST_LOG_TRIVIAL(info) << "start render";
+        cogDataSource_->SetSpitialFilter(xmin(), ymin(), xmax(), ymax());
         int nlayers = mapStyle_->GetLayerCount();
        
         for(int i = 0; i < nlayers; i++) {
@@ -45,16 +48,19 @@ namespace gmap {
             if (layer == nullptr) {
                 return false;
             }
-            cogdatasource_ptr cogDataSource = layer->GetDataSource(xmin(), ymin(), xmax(), ymax());
+            BOOST_LOG_TRIVIAL(info) << "start cog";
+            cogDataSource_->SetDataPath(layer->GetDataPath());
+            
 //            float* imageData = new float[width_ * height_];
 //            if(!cogDataSource->ReadRaster(width_, height_, imageData)) {
 //                delete []imageData;
 //                return false;
 //            }
+            BOOST_LOG_TRIVIAL(info) << "start rule render";
             for (int j = 0; j < layer->GetRuleCount(); ++j) {
                 rule_ptr rule = layer->GetRule(i);
                 RenderBase render(surface_);
-                render.Render(rule, cogDataSource);
+                render.Render(rule, cogDataSource_);
             }
             
             

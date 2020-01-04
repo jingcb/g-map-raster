@@ -47,6 +47,7 @@ namespace gmap {
         dataSource->ReadRaster(width, height, band, imgData);
         if(!rule->HasAttribute(StyleName::colorMap)) {
             BOOST_LOG_TRIVIAL(error) << "rule don't have attribute: colorMap";
+            delete[] imgData;
             return false;
         }
         std::vector<ColorMap> colorMapVec = boost::get<std::vector<ColorMap> >(rule->GetAttribute(StyleName::colorMap));
@@ -82,16 +83,18 @@ namespace gmap {
             return false;
         }
         int band = boost::get<int>(rule->GetAttribute(StyleName::band));
+        if(!rule->HasAttribute(StyleName::colorMap)) {
+            BOOST_LOG_TRIVIAL(error) << "rule don't have attribute: colorMap";
+            
+            return false;
+        }
         float* imgData = new float[width * height];
         if (imgData == nullptr) {
             return false;
         }
         
         dataSource->ReadRaster(width, height, band, imgData);
-        if(!rule->HasAttribute(StyleName::colorMap)) {
-            BOOST_LOG_TRIVIAL(error) << "rule don't have attribute: colorMap";
-            return false;
-        }
+        
         std::vector<ColorMap> colorMapVec = boost::get<std::vector<ColorMap> >(rule->GetAttribute(StyleName::colorMap));
         uint32_t pixels[width][height];
         for (int i = 0; i < width; ++i) {

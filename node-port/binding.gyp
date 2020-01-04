@@ -15,7 +15,9 @@
           "GCC_ENABLE_CPP_EXCEPTIONS": "YES",
       },
       "sources": [
-        "./src/gmap.cc"
+        "./src/gmap.cc",
+        "./src/gmap_map.h",
+        "./src/gmap_map.cpp"
       ],
       "libraries": [
           "../3rd/boost/lib/libboost_system-mt-x64.a",
