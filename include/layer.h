@@ -20,6 +20,8 @@ namespace gmap {
         
         //设置图层渲染的风格
         void AddRule(rule_ptr rule) { if(rule != nullptr) ruleVec_.push_back(rule); };
+        
+        std::string GetName() { return layerName_;};
         rule_ptr GetRule(const int& idx);
         int GetRuleCount() { return ruleVec_.size(); };
         std::string GetDataPath() { return dataPath_;};

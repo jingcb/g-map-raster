@@ -42,9 +42,7 @@ namespace gmap {
     bool COGDataSource::ReadRaster(const int& width, const int& height, const int& band, void* imageData) {
         
         //GDALWarpAppOptionsForBinary psOptionsForBinary ;
-        BOOST_LOG_TRIVIAL(info) << "start get data";
-        
-        
+
         char widthStr[256];
         sprintf(widthStr, "%d", width);
         char heightStr[256];
@@ -74,7 +72,7 @@ namespace gmap {
         GDALWarpAppOptions *psOptions = GDALWarpAppOptionsNew(warpArgv, nullptr);
         //CSLDestroy( warpArgv );
         GDALDatasetH *pahSrcDS = nullptr;
-        BOOST_LOG_TRIVIAL(info) << "start realloc" << filepath_;
+
         pahSrcDS = static_cast<GDALDatasetH *>(CPLRealloc(pahSrcDS, sizeof(GDALDatasetH)));
         pahSrcDS[0] = GDALOpenEx( filepath_.c_str(), GDAL_OF_RASTER | GDAL_OF_VERBOSE_ERROR, nullptr, nullptr, nullptr );
         if (pahSrcDS[0] == nullptr) {
@@ -94,7 +92,6 @@ namespace gmap {
         if(GDALRasterIO(pRasterband, GF_Read, 0, 0, width, height, imageData, width, height, GDT_Float32, 0, 0) == CPLErr::CE_Failure) {
             return false;
         }
-        BOOST_LOG_TRIVIAL(info) << "start delete mem tiff";
         
         if (hOutDS != nullptr) {
             
@@ -106,15 +103,14 @@ namespace gmap {
             }
             GDALClose(hOutDS);
         } else {
-            std::cout<<"no dataset"<<std::endl;
+            BOOST_LOG_TRIVIAL(error) << "Get data failed!: " << memFileName;
+            return false;
         }
         
-        BOOST_LOG_TRIVIAL(info) << "start delete optionsb";
         GDALWarpAppOptionsFree(psOptions);
         GDALClose(pahSrcDS[0]);
         CPLFree(pahSrcDS);
         //GDALDestroyDriverManager();
-        BOOST_LOG_TRIVIAL(info) << "sucessful get data";
         //OGRCleanupAll();
         
         return true;

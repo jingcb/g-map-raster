@@ -20,6 +20,7 @@ namespace gmap {
             return false;
         }
         std::string renderType = boost::get<std::string>(rule->GetAttribute(StyleName::renderType));
+        BOOST_LOG_TRIVIAL(info) << "****** --- renderType: " << renderType << " --- ******";
         if (renderType == "category") {
             return this->CategoryRender(rule, dataSource);
         } else if (renderType == "choropleth") {

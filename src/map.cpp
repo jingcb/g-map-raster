@@ -39,7 +39,7 @@ namespace gmap {
     }
     
     bool Map::Render() {
-        BOOST_LOG_TRIVIAL(info) << "Start Map render !";
+        BOOST_LOG_TRIVIAL(info) << "* Start Map render ! *";
         cogDataSource_->SetSpitialFilter(xmin(), ymin(), xmax(), ymax());
         int nlayers = mapStyle_->GetLayerCount();
        
@@ -56,21 +56,23 @@ namespace gmap {
 //                delete []imageData;
 //                return false;
 //            }
-            BOOST_LOG_TRIVIAL(info) << "Render layer: "<<;
+            BOOST_LOG_TRIVIAL(info) << "*** Render layer: "<< layer->GetName() << " ***";
             for (int j = 0; j < layer->GetRuleCount(); ++j) {
                 rule_ptr rule = layer->GetRule(i);
                 RenderBase render(surface_);
+                BOOST_LOG_TRIVIAL(info) << "****** Render rule: "<< j + 1 << " ******";
                 render.Render(rule, cogDataSource_);
             }
             
             
         }
+        BOOST_LOG_TRIVIAL(info) << "* Finished Map render ! *";
         return true;
     }
     
     bool Map::SaveFile(const std::string filePath) {
+        BOOST_LOG_TRIVIAL(info) << "* Save png file : " << filePath;
         sk_sp<SkImage> img(surface_->makeImageSnapshot());
-        
         sk_sp<SkData> png(img->encodeToData(SkEncodedImageFormat::kPNG, 100));
         SkFILEWStream out(filePath.c_str());
         if (!img) {
@@ -81,6 +83,7 @@ namespace gmap {
         return true;
     }
     bool Map::SaveStream(std::string &stream) {
+        BOOST_LOG_TRIVIAL(info) << "* Save stream! *";
         SkDynamicMemoryWStream wStream;
         SkImageInfo imageInfo;
         
