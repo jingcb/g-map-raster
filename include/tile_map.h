@@ -28,8 +28,10 @@ namespace gmap {
     };
     class TileMap : public Map {
     public:
+        TileMap();
         TileMap(unsigned int level, unsigned int row, unsigned int col);
         ~TileMap();
+        bool Tile(unsigned int level, unsigned int row, unsigned int col, const std::string& style, const bool& fromfile, const unsigned int retina =1 );
         bool Tile(const std::string& style, const bool& fromfile, const unsigned int retina = 1);
         bool CalculateTileExtent();
         

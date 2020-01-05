@@ -39,7 +39,7 @@ namespace gmap {
     }
     
     bool Map::Render() {
-        BOOST_LOG_TRIVIAL(info) << "start render";
+        BOOST_LOG_TRIVIAL(info) << "Start Map render !";
         cogDataSource_->SetSpitialFilter(xmin(), ymin(), xmax(), ymax());
         int nlayers = mapStyle_->GetLayerCount();
        
@@ -48,7 +48,7 @@ namespace gmap {
             if (layer == nullptr) {
                 return false;
             }
-            BOOST_LOG_TRIVIAL(info) << "start cog";
+            
             cogDataSource_->SetDataPath(layer->GetDataPath());
             
 //            float* imageData = new float[width_ * height_];
@@ -56,7 +56,7 @@ namespace gmap {
 //                delete []imageData;
 //                return false;
 //            }
-            BOOST_LOG_TRIVIAL(info) << "start rule render";
+            BOOST_LOG_TRIVIAL(info) << "Render layer: "<<;
             for (int j = 0; j < layer->GetRuleCount(); ++j) {
                 rule_ptr rule = layer->GetRule(i);
                 RenderBase render(surface_);

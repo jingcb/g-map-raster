@@ -37,7 +37,7 @@ public:
     
     
     Map();
-    ~Map();
+    
     
     bool acquire();
     void release();
@@ -47,9 +47,10 @@ public:
     inline map_ptr get() { return map_; }
     
 private:
-    
-    bool in_use_;
+    ~Map();
     map_ptr map_;
+    bool in_use_;
+    
     
 };
 

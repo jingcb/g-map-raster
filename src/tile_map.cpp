@@ -2,9 +2,21 @@
 #include "utils/debug_utility.h"
 
 namespace gmap {
+    TileMap::TileMap() : level_(0), row_(0), col_(0) {
+        
+    }
     TileMap::TileMap(unsigned int level, unsigned int row, unsigned int col) : level_(level), row_(row), col_(col) {
     };
     TileMap::~TileMap() {
+    }
+    bool TileMap::Tile(unsigned int level, unsigned int row, unsigned int col, const std::string& style, const bool& fromfile, const unsigned int retina) {
+        this->level_ = level;
+        this->row_ = row;
+        this->col_ = col;
+        if (!Tile(style, fromfile, retina)) {
+            return false;
+        }
+        return true;
     }
     bool TileMap::Tile(const std::string& style, const bool& fromfile, const unsigned int retina) {
         

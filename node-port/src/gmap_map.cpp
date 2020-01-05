@@ -22,6 +22,7 @@ void Map::Initialize(v8::Local<v8::Object> target) {
 
 Map::Map() :
 Nan::ObjectWrap(),
+map_(std::make_shared<gmap::TileMap>()),
 in_use_(false) {
 }
 
@@ -215,7 +216,7 @@ NAN_METHOD(Map::tile) {
         closure->y = options->Get(Nan::New("y").ToLocalChecked())->Int32Value();
     }
     
-    m->map_ = std::make_shared<gmap::TileMap>(closure->z, closure->x, closure->y);
+    
     
     if (options->Has(Nan::New("retina").ToLocalChecked())) {
         closure->retina = options->Get(Nan::New("retina").ToLocalChecked())->Int32Value();
@@ -234,7 +235,7 @@ NAN_METHOD(Map::tile) {
 
 void Map::EIO_Tile(uv_work_t* req) {
     tile_baton_t *closure = static_cast<tile_baton_t*>(req->data);
-    if (!closure->m->map_->Tile(closure->style, closure->fromfile, closure->retina)) {
+    if (!closure->m->map_->Tile(closure->z, closure->x, closure->y, closure->style, closure->fromfile, closure->retina)) {
         closure->error = true;
         closure->error_name = "Tile error!";
     } else {
